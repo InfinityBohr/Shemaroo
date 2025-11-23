@@ -2,7 +2,7 @@ name: Daily Playlist Generator
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Runs every 10 minutes
+    - cron: '*/6 * * * *'  # Runs every 10 minutes
   workflow_dispatch:      # Optional: Allows manual trigger
 
 jobs:
