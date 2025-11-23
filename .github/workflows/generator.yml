@@ -1,12 +1,12 @@
-name: Daily Playlist Generator
+name: Daily File Generator
 
 on:
   schedule:
-    - cron: '*/6 * * * *'  # Runs every 10 minutes
+    - cron: '*/10 * * * *'  # Runs every 30 min
   workflow_dispatch:      # Optional: Allows manual trigger
 
 jobs:
-  generate-playlist:
+  generate-file:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,16 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests certifi
 
-      - name: Create docs directory if it doesn't exist
-        run: mkdir -p docs
+      - name: Run script to generate file
+        run: python script.py # replace with your actual script filename
 
-      - name: Run script to generate playlist
-        run: python script.py
-
-      - name: Commit and push generated playlist
+      - name: Commit and push generated file
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add docs/playlist.m3u docs/.nojekyll
-          git commit -m "Update combined playlist" || echo "No changes to commit"
-          git push origin main
+          git add .
+          git commit -m "Generated file on schedule" || echo "No changes to commit"
+          git push origin main --force
