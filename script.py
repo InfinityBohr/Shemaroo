@@ -23,7 +23,7 @@ def runServers():
     response = requests.get(url, headers=headers, verify=certifi.where())
 
     # Use regex to extract the source URL
-    match = re.search(r'file:\s*"([^"]+playlist\.m3u8[^"]*)"', response.text)
+    match = re.search(r'file:\s*"([^"]+index\.m3u8[^"]*)"', response.text)
     if match:
         stream_url = match.group(1)
         # print(stream_url)
