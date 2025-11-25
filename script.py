@@ -5,99 +5,84 @@ import requests
 
 
 def runServers():
-    with open("docs/playlist2.m3u8", "w") as file:
+    with open("docs/playlist1.m3u8", "w") as file:
         file.write("#EXTM3U\n")
-    for i in range(len(hashCode)):
-        print(f"{i+1}.{channels[i]}")
-        server2(hashCode[i], channels[i])
+    for i in range(len(lis)):
+        print(f"{i+1}.{lis[i]}")
+        server1(i + 1, lis[i])
+        
+ def server1(i, name):
+    print("Running Server 1")
+    url = f"http://cdntvpotok.com/sweet/{name}.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "http://sweet-tv.net/",
+        "X-Requested-With": "XMLHttpRequest",
+    }
 
-    
+    response = requests.get(url, headers=headers, verify=certifi.where())
+
+    # Use regex to extract the source URL
+    match = re.search(r'file:\s*"([^"]+playlist\.m3u8[^"]*)"', response.text)
+    if match:
+        stream_url = match.group(1)
+        # print(stream_url)
+        with open("docs/playlist1.m3u8", "a") as file:
+            file.write(f"#EXTINF:-1,{name}\n")
+            file.write(f"{stream_url}\n")
+
+    else:
+        print("No URL found.")
 
 
-def server2(hash, name):
-    print("Running Server 2")
-    res = requests.post(
-        f"http://oxax.tv/(hash).html",
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
-    )
 
-    data = res.json()
-    k = data["kodk"]
-
-    stream_url = f"https://s.oxax.tv/{name}/index.m3u8?k={k}"
-    with open("docs/playlist2.m3u8", "a") as file:
-        file.write(f"#EXTINF:-1,{name}\n")
-        file.write(f"{stream_url}\n")
     # print(stream_url)
 
 
 
 
 
-# for Server 2
-hashCode = [
-    "brazzers-tv",
-    "playboy-tv",
-    "erox-hd",
-    "eroxxx-hd",
-    "hot-pleasure",
-    "xy-mix-hd",
-    "xy-max-hd",
-    "xy-plus-hd",
-    "o-la-la",
-    "barely-legal",
-    "brazzers-tv-europe",
-    "hustler-hd",
+# For Server 1
+print("Available Channels\nSome links might not works!!!")
+lis = [
+    "brazzers_eu",
+    "playboy",
+    "olala",
     "dorcel-tv",
-    "vivid-red",
-    "oh-ah",
-    "blue-hustler",
-    "kino-xxx",
-    "penthouse-gold",
-    "penthouse-2",
+    "hustlerhd",
+    "french-lover-tv",
     "private-tv",
-    "shalun",
-    "redlight-hd",
-    "xxl",
+    "kinoxxx",
     "red-lips",
-    "pink-o",
-    "extasyhd",
+    "redlight",
+    "exxxotica",
     "babes-tv",
-    "sl-hot1",
-    "sl-hot2",
+    "vivid-red",
+    "adulttv-hardcore",
+    "penthouse-2",
+    "penthouse-gold",
+    "erox-hd",
+    "barely-legal-tv",
+    "extasy-hd",
+    "shalun-tv",
+    "oh-ah",
+    "hustler",
+    "nuart",
+    "xxl",
+    "xy-plus",
+    "xy-mix",
+    "xy-max",
+    "fap-tv-parody",
+    "fap-tv-lesbian",
+    "fap-tv-2",
+    "fap-tv-2",
+    "fap-tv-3",
+    "fap-tv-teens",
+    "fap-tv-compilation",
+    "fap-tv-bbw",
+    "fap-tv-anal",
 ]
 
 
-channels = [
-    "46",
-    "6",
-    "9",
-    "47",
-    "52",
-    "55",
-    "43",
-    "50",
-    "17",
-    "42",
-    "2",
-    "10",
-    "21",
-    "7",
-    "1",
-    "19",
-    "49",
-    "39",
-    "16",
-    "11",
-    "20",
-    "12",
-    "30",
-    "3",
-    "22",
-    "29",
-    "14",
-    "59",
-    "58",
-]
 
 runServers() #Runs the function to start the servers!
